@@ -298,3 +298,45 @@ Or you can also overwrite the `TimeOffset` yourself:
 ```golang
 client.TimeOffset = 123
 ```
+
+### Websocket Market Stream Data
+
+#### Live Subscribing/Unsubscribing to streams
+
+```golang
+ms, err := binance.NewMarketStreams(errHandler, true)
+if err != nil {
+    t.Fatal(err)
+}
+ms.Debug = true 
+
+// make subscription
+_ = ms.Subscribe(
+    binance.CustomSubscribeOptions("btcusdt@depth@"),
+    binance.CustomSubscribeOptions("btcusdt@aggTrade"),
+)
+
+// unsubscription
+ms.Unsubscribe(binance.CustomSubscribeOptions("btcusdt@depth@"))
+```
+
+If ypu want to destroy object use  ```err := ms.Close()```
+It stop ws and all channels.
+
+How read events ?
+```golang
+
+for v := range ms.GetStreamEvents() {
+    if v.Type == binance.StreamEventAggTrade {
+        if _, ok := v.Data.(binance.WsAggTradeEvent); ok {
+            //...
+        }
+    }
+    if v.Type == binance.StreamEventAggTrade {
+        if _, ok := v.Data.(binance.WsAggTradeEvent); ok {
+            //...
+        }
+    }
+//...
+}
+```

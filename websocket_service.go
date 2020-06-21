@@ -197,6 +197,9 @@ type WsDepthEvent struct {
 	FirstUpdateID int64  `json:"U"`
 	Bids          []Bid  `json:"b"`
 	Asks          []Ask  `json:"a"`
+
+	// in Future depth stream we losing "pu"
+	// - "last update Id in last stream（ie ‘u’ in last stream）"
 }
 
 // WsKlineHandler handle websocket kline event

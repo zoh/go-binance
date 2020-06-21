@@ -279,6 +279,8 @@ func (c *Client) callAPI(ctx context.Context, r *request, opts ...RequestOption)
 			err = cerr
 		}
 	}()
+
+	c.debug("headers %#v", res.Header)
 	c.debug("response: %#v", res)
 	c.debug("response body: %s", string(data))
 	c.debug("response status code: %d", res.StatusCode)
